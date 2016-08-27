@@ -17,7 +17,7 @@ declare var OAuth: any;
 
 export class TwitterComponent {
 
-	// store our mentions in an array of objects
+	// store our tweets in an array of objects
 	tweets: Array<Object>;
 
 	// if the user tries to navigate to the twitter view without being

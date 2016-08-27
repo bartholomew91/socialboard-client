@@ -10,6 +10,14 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
+    var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments)).next());
+        });
+    };
     var core_1;
     var InstagramService;
     return {
@@ -22,6 +30,31 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 function InstagramService() {
                     this._posts = [];
                 }
+                // function to search twitter
+                InstagramService.prototype.search = function (OAuthResult, query) {
+                    console.log(OAuthResult);
+                    if (OAuthResult != null) {
+                        return this._get(OAuthResult, 'https://api.instagram.com/v1/tags/' + query + '/media/recent?access_token=' + OAuthResult.access_token);
+                    }
+                    else {
+                        return null;
+                    }
+                };
+                // async/await function to make requests to the twitter api
+                // this allows us to make sure our data is set AFTER the
+                // http request has been sent.
+                InstagramService.prototype._get = function (OAuthResult, apiUrl) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        var result = null;
+                        yield OAuthResult.get(apiUrl).done(function (response) {
+                            result = response.data;
+                            console.log(result);
+                        }).error(function (error) {
+                            console.error(error);
+                        });
+                        return result;
+                    });
+                };
                 InstagramService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [])

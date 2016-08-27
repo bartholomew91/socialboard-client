@@ -37,6 +37,17 @@ System.register(['angular2/core', '../../../services/oauth.service', '../../../s
                         this._router.navigate(['Dashboard']);
                     }
                 }
+                InstagramComponent.prototype.search = function (query) {
+                    // our encoded search query
+                    query = encodeURIComponent(query);
+                    // get our oAuth authorization result
+                    var result = this._OAuthService.getResult('instagram');
+                    // set our local this variable to another, to acess outside of scope
+                    var _this = this;
+                    this._instagramService.search(result, query).then(function (result) {
+                        _this.posts = result;
+                    });
+                };
                 InstagramComponent = __decorate([
                     core_1.Component({
                         selector: 'my-dashboard',

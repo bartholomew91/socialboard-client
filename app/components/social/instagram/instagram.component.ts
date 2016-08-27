@@ -15,6 +15,10 @@ declare var OAuth: any;
 })
 
 export class InstagramComponent {
+
+	// store our posts in an array of objects
+	posts: Array<Object>;
+
 	constructor(
 		private _router: Router,
 		private _OAuthService: OAuthService,
@@ -24,5 +28,18 @@ export class InstagramComponent {
 		if (!this._OAuthService.isAuthorized('instagram')) {
 			this._router.navigate(['Dashboard']);
 		}
+	}
+
+	search(query) {
+		// our encoded search query
+		query = encodeURIComponent(query);
+		// get our oAuth authorization result
+		var result = this._OAuthService.getResult('instagram');
+		// set our local this variable to another, to acess outside of scope
+		var _this = this;
+
+		this._instagramService.search(result, query).then(function(result) {
+			_this.posts = result;
+		});
 	}
 }
