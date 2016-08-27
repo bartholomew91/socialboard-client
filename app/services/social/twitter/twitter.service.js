@@ -33,20 +33,41 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 // function to return twitter mentions
                 TwitterService.prototype.mentions = function (OAuthResult) {
                     if (OAuthResult != null) {
-                        return this._get(OAuthResult, 'https://api.twitter.com/1.1/statuses/mentions_timeline.json', this.mentions);
+                        return this._get(OAuthResult, 'https://api.twitter.com/1.1/statuses/mentions_timeline.json');
                     }
                     else {
                         return null;
                     }
                 };
-                // async/away function to make requests to the twitter api
+                // function to return trending twitter topics
+                TwitterService.prototype.trending = function (OAuthResult) {
+                    if (OAuthResult != null) {
+                        return this._get(OAuthResult, 'https://api.twitter.com/1.1/trends/place.json?id=1');
+                    }
+                    else {
+                        return null;
+                    }
+                };
+                // function to search twitter
+                TwitterService.prototype.search = function (OAuthResult, query) {
+                    if (OAuthResult != null) {
+                        return this._get(OAuthResult, 'https://api.twitter.com/1.1/search/tweets.json?result_type=recent&count=100&q=' + query);
+                    }
+                    else {
+                        return null;
+                    }
+                };
+                // async/await function to make requests to the twitter api
                 // this allows us to make sure our data is set AFTER the
                 // http request has been sent.
-                TwitterService.prototype._get = function (OAuthResult, apiUrl, fn) {
+                TwitterService.prototype._get = function (OAuthResult, apiUrl) {
                     return __awaiter(this, void 0, void 0, function* () {
                         var result = null;
                         yield OAuthResult.get(apiUrl).done(function (response) {
-                            result = response;
+                            console.log(response);
+                            result = response.statuses;
+                        }).error(function (error) {
+                            console.error(error);
                         });
                         return result;
                     });

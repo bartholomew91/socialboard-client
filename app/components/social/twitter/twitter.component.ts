@@ -18,7 +18,7 @@ declare var OAuth: any;
 export class TwitterComponent {
 
 	// store our mentions in an array of objects
-	mentions: Array<Object>;
+	tweets: Array<Object>;
 
 	// if the user tries to navigate to the twitter view without being
 	// logged in, redirect them to the dashboard.
@@ -42,31 +42,34 @@ export class TwitterComponent {
 
 		// get our mentions and set it to our local scope
 		this._twitterService.mentions(result).then(function(result) {
-			_this.mentions = result;
+			_this.tweets = result;
 		});
 	}
 
 	// get trending twitter topics
 	getTrending() {
+		// get our oAuth authorization result
 		var result = this._OAuthService.getResult('twitter');
+		// set our local this variable to another, to acess outside of scope
+		var _this = this;
 
-		result.get('https://api.twitter.com/1.1/trends/place.json?id=1')
-			.done(function(response) {
-				console.log(response);
-			});
+		// get our trending tweets and set it to our local scope
+		this._twitterService.trending(result).then(function(result) {
+			_this.tweets = result;
+		});
 	}
 
 	// search twitter
 	search(query) {
+		// our encoded search query
 		query = encodeURIComponent(query);
+		// get our oAuth authorization result
 		var result = this._OAuthService.getResult('twitter');
+		// set our local this variable to another, to acess outside of scope
+		var _this = this;
 
-		result.get('https://api.twitter.com/1.1/search/tweets.json?result_type=recent&count=100&q=' + query)
-			.done(function(response) {
-				console.log(response);
-			})
-			.fail(function(err) {
-				console.log(err);
-			});
+		this._twitterService.search(result, query).then(function(result) {
+			_this.tweets = result;
+		});
 	}
 }

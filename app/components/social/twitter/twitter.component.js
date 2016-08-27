@@ -47,27 +47,30 @@ System.register(['angular2/core', '../../../services/oauth.service', '../../../s
                     var _this = this;
                     // get our mentions and set it to our local scope
                     this._twitterService.mentions(result).then(function (result) {
-                        _this.mentions = result;
+                        _this.tweets = result;
                     });
                 };
                 // get trending twitter topics
                 TwitterComponent.prototype.getTrending = function () {
+                    // get our oAuth authorization result
                     var result = this._OAuthService.getResult('twitter');
-                    result.get('https://api.twitter.com/1.1/trends/place.json?id=1')
-                        .done(function (response) {
-                        console.log(response);
+                    // set our local this variable to another, to acess outside of scope
+                    var _this = this;
+                    // get our trending tweets and set it to our local scope
+                    this._twitterService.trending(result).then(function (result) {
+                        _this.tweets = result;
                     });
                 };
                 // search twitter
                 TwitterComponent.prototype.search = function (query) {
+                    // our encoded search query
                     query = encodeURIComponent(query);
+                    // get our oAuth authorization result
                     var result = this._OAuthService.getResult('twitter');
-                    result.get('https://api.twitter.com/1.1/search/tweets.json?result_type=recent&count=100&q=' + query)
-                        .done(function (response) {
-                        console.log(response);
-                    })
-                        .fail(function (err) {
-                        console.log(err);
+                    // set our local this variable to another, to acess outside of scope
+                    var _this = this;
+                    this._twitterService.search(result, query).then(function (result) {
+                        _this.tweets = result;
                     });
                 };
                 TwitterComponent = __decorate([
