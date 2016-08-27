@@ -3,7 +3,7 @@
 		<li><a href="/twitter">Twitter</a></li>
 	</ol>
 	<div class="row">
-		<div class="col-lg-3">
+		<div class="col-lg-6">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="btn-group btn-group-justified" role="group" aria-label="...">
@@ -23,16 +23,12 @@
 				</div>
 			</div>
 			<div class="row" style="margin-top: 20px; height: 100%; overflow: auto;">
-				<div class="media" *ngFor="#tweet of tweets">
-					<div class="media" style="border-bottom: 1px solid #cccccc">
-					  <div class="media-left media-top">
-					    <a href="#">
-					      <img class="media-object img-circle" src="{{ tweet.user.profile_image_url.replace('_normal', '_bigger') }}" alt="">
-					    </a>
-					  </div>
-					  <div class="media-body">
-					    <h4 class="media-heading">{{ tweet.user.screen_name }}</h4>
-					    {{ tweet.text }}
+				<div class="col-lg-4" *ngFor="#tweet of tweets">
+					<div class="panel panel-default">
+					  <div class="panel-heading">{{ tweet.user.screen_name }} <span *ngIf="tweet.entities.media" class="glyphicon glyphicon-camera"></span></div>
+					  <div class="panel-body">
+					    <p>{{ tweet.text }}</p>
+					    <img *ngIf="tweet.entities.media" src="{{ tweet.entities.media[0].media_url }}" width="100%">
 					  </div>
 					</div>
 				</div>

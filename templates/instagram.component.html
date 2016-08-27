@@ -17,10 +17,11 @@
 			<div class="row" style="margin-top: 20px;" >
 				<div class="col-lg-6" *ngFor="#post of posts">
 					<div class="panel panel-default">
-					  <div class="panel-heading">{{ post.user.username }}</div>
+					  <div class="panel-heading">{{ post.user.username }} <span *ngIf="post.videos" class="glyphicon glyphicon-film" aria-hidden="true"></span></div>
 					  <div class="panel-body">
 					    <p>{{ post.caption.text }}</p>
-					    <img src="{{ post.images.standard_resolution.url }}" width="100%">
+					    <video *ngIf="post.videos" src="{{ post.videos.standard_resolution.url }}" width="100%" controls="true">No video found</video>
+					    <img *ngIf="!post.videos" src="{{ post.images.standard_resolution.url }}" width="100%">
 					  </div>
 					</div>
 				</div>
