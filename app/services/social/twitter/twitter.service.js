@@ -10,6 +10,14 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
+    var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments)).next());
+        });
+    };
     var core_1;
     var TwitterService;
     return {
@@ -22,20 +30,25 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 function TwitterService() {
                     this._tweets = [];
                 }
-                TwitterService.prototype.mentions = function (OAuthResult, response) {
+                // function to return twitter mentions
+                TwitterService.prototype.mentions = function (OAuthResult) {
                     if (OAuthResult != null) {
-                        alert('oauth');
-                        this._get(OAuthResult, 'https://api.twitter.com/1.1/statuses/mentions_timeline.json', this.mentions);
+                        return this._get(OAuthResult, 'https://api.twitter.com/1.1/statuses/mentions_timeline.json', this.mentions);
                     }
                     else {
-                        alert('response');
-                        return Promise.resolve(response);
+                        return null;
                     }
                 };
+                // async/away function to make requests to the twitter api
+                // this allows us to make sure our data is set AFTER the
+                // http request has been sent.
                 TwitterService.prototype._get = function (OAuthResult, apiUrl, fn) {
-                    OAuthResult.get(apiUrl)
-                        .done(function (response) {
-                        fn(null, response);
+                    return __awaiter(this, void 0, void 0, function* () {
+                        var result = null;
+                        yield OAuthResult.get(apiUrl).done(function (response) {
+                            result = response;
+                        });
+                        return result;
                     });
                 };
                 TwitterService = __decorate([

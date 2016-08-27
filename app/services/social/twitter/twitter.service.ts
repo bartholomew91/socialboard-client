@@ -5,20 +5,26 @@ export class TwitterService {
 
 	private _tweets = [];
 
-	mentions(OAuthResult, response) {
+	// function to return twitter mentions
+	mentions(OAuthResult) {
 		if (OAuthResult != null) {
-			alert('oauth');
-			this._get(OAuthResult, 'https://api.twitter.com/1.1/statuses/mentions_timeline.json', this.mentions);
+			return this._get(OAuthResult, 'https://api.twitter.com/1.1/statuses/mentions_timeline.json', this.mentions);
 		} else {
-			alert('response');
-			return Promise.resolve(response);
+			return null;
 		}
 	}
 
-	private _get(OAuthResult, apiUrl, fn) {
-		OAuthResult.get(apiUrl)
-			.done((response) => {
-				fn(null, response);
-			});
+	// async/away function to make requests to the twitter api
+	// this allows us to make sure our data is set AFTER the
+	// http request has been sent.
+	private async _get(OAuthResult, apiUrl, fn) {
+		
+		var result = null;
+		
+		await OAuthResult.get(apiUrl).done(function(response) {
+			result = response;
+		});
+
+		return result;
 	}
 }

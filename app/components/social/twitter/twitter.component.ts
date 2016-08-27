@@ -1,4 +1,5 @@
 import {Component} from 'angular2/core';
+import {Response} from 'angular2/http';
 import {OAuthService} from '../../../services/oauth.service';
 import {TwitterService} from '../../../services/social/twitter/twitter.service';
 import {Router} from 'angular2/router';
@@ -34,22 +35,15 @@ export class TwitterComponent {
 
 	// get twitter mentions
 	getMentions() {
+		// get our oAuth authorization result
 		var result = this._OAuthService.getResult('twitter');
+		// set our local this variable to another, to acess outside of scope
+		var _this = this;
 
-		result.get('https://api.twitter.com/1.1/statuses/mentions_timeline.json').done(function(response) {
-			this.mentions = response;
-			console.log(this.mentions);
+		// get our mentions and set it to our local scope
+		this._twitterService.mentions(result).then(function(result) {
+			_this.mentions = result;
 		});
-
-		//console.log(this.mentions);
-
-		//return this.mentions;
-
-		//this._twitterService.mentions(result, null).then(response => console.log(response));
-		/* result.get('https://api.twitter.com/1.1/statuses/mentions_timeline.json')
-			.done(function(response) {
-				console.log(response);
-			}); */
 	}
 
 	// get trending twitter topics

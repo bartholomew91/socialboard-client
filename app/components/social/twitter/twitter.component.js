@@ -28,6 +28,8 @@ System.register(['angular2/core', '../../../services/oauth.service', '../../../s
             }],
         execute: function() {
             TwitterComponent = (function () {
+                // if the user tries to navigate to the twitter view without being
+                // logged in, redirect them to the dashboard.
                 function TwitterComponent(_router, _OAuthService, _twitterService) {
                     this._router = _router;
                     this._OAuthService = _OAuthService;
@@ -37,20 +39,18 @@ System.register(['angular2/core', '../../../services/oauth.service', '../../../s
                         this._router.navigate(['Dashboard']);
                     }
                 }
+                // get twitter mentions
                 TwitterComponent.prototype.getMentions = function () {
+                    // get our oAuth authorization result
                     var result = this._OAuthService.getResult('twitter');
-                    result.get('https://api.twitter.com/1.1/statuses/mentions_timeline.json').done(function (response) {
-                        this.mentions = response;
-                        console.log(this.mentions);
+                    // set our local this variable to another, to acess outside of scope
+                    var _this = this;
+                    // get our mentions and set it to our local scope
+                    this._twitterService.mentions(result).then(function (result) {
+                        _this.mentions = result;
                     });
-                    //console.log(this.mentions);
-                    //return this.mentions;
-                    //this._twitterService.mentions(result, null).then(response => console.log(response));
-                    /* result.get('https://api.twitter.com/1.1/statuses/mentions_timeline.json')
-                        .done(function(response) {
-                            console.log(response);
-                        }); */
                 };
+                // get trending twitter topics
                 TwitterComponent.prototype.getTrending = function () {
                     var result = this._OAuthService.getResult('twitter');
                     result.get('https://api.twitter.com/1.1/trends/place.json?id=1')
@@ -58,6 +58,7 @@ System.register(['angular2/core', '../../../services/oauth.service', '../../../s
                         console.log(response);
                     });
                 };
+                // search twitter
                 TwitterComponent.prototype.search = function (query) {
                     query = encodeURIComponent(query);
                     var result = this._OAuthService.getResult('twitter');
