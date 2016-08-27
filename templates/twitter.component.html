@@ -22,33 +22,19 @@
 				    </div>
 				</div>
 			</div>
-			<div class="row" style="margin-top: 20px;">
-				<div class="media" *ngFor="#tweet of mentions">
-					test
-				</div>
-			</div>
-			<div class="row" style="margin-top: 20px;">
-				<div class="media" style="border-bottom: 1px solid #cccccc">
-				  <div class="media-left media-top">
-				    <a href="#">
-				      <img class="media-object img-circle" src="https://pbs.twimg.com/profile_images/1297678582/23104_1441020019_5372_n_bigger.jpg" alt="">
-				    </a>
-				  </div>
-				  <div class="media-body">
-				    <h4 class="media-heading">@mjohnston91</h4>
-				    I finally finished a project that's been taking up the last three months of my life. Now just some bug fixes. Time for a vacation. :)
-				  </div>
-				</div>
-				<div class="media" style="border-bottom: 1px solid #cccccc">
-				  <div class="media-left media-top">
-				    <a href="#">
-				      <img class="media-object img-circle" src="https://pbs.twimg.com/profile_images/1297678582/23104_1441020019_5372_n_bigger.jpg" alt="">
-				    </a>
-				  </div>
-				  <div class="media-body">
-				    <h4 class="media-heading">@mjohnston91</h4>
-				    I finally finished a project that's been taking up the last three months of my life. Now just some bug fixes. Time for a vacation. :)
-				  </div>
+			<div class="row" style="margin-top: 20px; height: 100%; overflow: auto;">
+				<div class="media" *ngFor="#tweet of tweets">
+					<div class="media" style="border-bottom: 1px solid #cccccc">
+					  <div class="media-left media-top">
+					    <a href="#">
+					      <img class="media-object img-circle" src="{{ tweet.user.profile_image_url.replace('_normal', '_bigger') }}" alt="">
+					    </a>
+					  </div>
+					  <div class="media-body">
+					    <h4 class="media-heading">{{ tweet.user.screen_name }}</h4>
+					    {{ tweet.text }}
+					  </div>
+					</div>
 				</div>
 			</div>
 		</div>
