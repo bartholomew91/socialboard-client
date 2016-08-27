@@ -1,0 +1,53 @@
+<div class="container-fluid">
+	<ol class="breadcrumb">
+		<li><a href="/twitter">Facebook</a></li>
+	</ol>
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="btn-group btn-group-justified" role="group" aria-label="...">
+					  <div class="btn-group" role="group">
+					    <button type="button" class="btn btn-default" (click)="getMentions()">Get Posts</button>
+					  </div>
+					  <div class="btn-group" role="group">
+					    <button type="button" class="btn btn-default" (click)="getTrending()">Get Trending</button>
+					  </div>
+					</div>
+					<div class="input-group">
+				      <input #twitterSearch (keydown.enter)="search(twitterSearch.value)" type="text" class="form-control" placeholder="Search for...">
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" type="button" (click)="search(twitterSearch.value)">&nbsp;<i class="glyphicon glyphicon-search"></i>&nbsp;</button>
+				      </span>
+				    </div>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 20px;">
+				<div class="media" style="border-bottom: 1px solid #cccccc">
+				  <div class="media-left media-top">
+				    <a href="#">
+				      <img class="media-object img-circle" src="https://pbs.twimg.com/profile_images/1297678582/23104_1441020019_5372_n_bigger.jpg" alt="">
+				    </a>
+				  </div>
+				  <div class="media-body">
+				    <h4 class="media-heading">@mjohnston91</h4>
+				    I finally finished a project that's been taking up the last three months of my life. Now just some bug fixes. Time for a vacation. :)
+				  </div>
+				</div>
+				<div class="media" style="border-bottom: 1px solid #cccccc">
+				  <div class="media-left media-top">
+				    <a href="#">
+				      <img class="media-object img-circle" src="https://pbs.twimg.com/profile_images/1297678582/23104_1441020019_5372_n_bigger.jpg" alt="">
+				    </a>
+				  </div>
+				  <div class="media-body">
+				    <h4 class="media-heading">@mjohnston91</h4>
+				    I finally finished a project that's been taking up the last three months of my life. Now just some bug fixes. Time for a vacation. :)
+				  </div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-9">
+		</div>
+	</div>
+</div>
