@@ -20,7 +20,7 @@ declare var OAuth: any;
 export class FacebookComponent {
 	constructor(
 		private _router: Router,
-		private _OAuthService: OAuthService,
+		private _OAuthService: OAuthService
 		/*private _facebookService: FacebookService*/) {
 		this._OAuthService.setResult(OAuth.create('facebook'), 'facebook');
 
